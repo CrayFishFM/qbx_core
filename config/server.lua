@@ -2,11 +2,11 @@ return {
     updateInterval = 5, -- how often to update player data in minutes
 
     money = {
-        ---@alias MoneyType 'cash' | 'bank' | 'crypto'
+        ---@alias MoneyType 'cash' | 'bank' | 'crypto' | 'tokens'
         ---@alias Money {cash: number, bank: number, crypto: number}
         ---@type Money
-        moneyTypes = { cash = 500, bank = 5000, crypto = 0 }, -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
-        dontAllowMinus = { 'cash', 'crypto' }, -- Money that is not allowed going in minus
+        moneyTypes = { cash = 500, bank = 5000, crypto = 0, tokens = 0 }, -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
+        dontAllowMinus = { 'cash', 'crypto', 'tokens' }, -- Money that is not allowed going in minus
         paycheckTimeout = 10, -- The time in minutes that it will give the paycheck
         paycheckSociety = false -- If true paycheck will come from the society account that the player is employed at
     },
@@ -60,7 +60,7 @@ return {
     ---@alias ColumnName string
     ---@type [TableName, ColumnName][]
     characterDataTables = {
-        {'properties', 'owner'},
+        -- {'properties', 'owner'},
         {'bank_accounts_new', 'id'},
         {'playerskins', 'citizenid'},
         {'player_mails', 'citizenid'},
@@ -112,7 +112,8 @@ return {
     },
 
     giveVehicleKeys = function(src, plate, vehicle)
-        return exports.qbx_vehiclekeys:GiveKeys(src, vehicle)
+        -- return exports.qbx_vehiclekeys:GiveKeys(src, vehicle)
+        return exports.mVehicle:ItemCarKeys(src, 'add', plate)
     end,
 
     getSocietyAccount = function(accountName)
