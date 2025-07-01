@@ -40,20 +40,24 @@ return {
             },
             [5] = {
                 name = 'Captain',
+                isboss = true,
                 payment = 1700
             },
             [6] = {
                 name = 'Deputy Chief',
+                isboss = true,
                 payment = 1800
             },
             [7] = {
                 name = 'Asst. Chief',
                 isboss = true,
+                bankAuth = true,
                 payment = 1900
             },
             [8] = {
                 name = 'Chief of Police',
                 isboss = true,
+                bankAuth = true,
                 payment = 2000
             },
         },
@@ -90,6 +94,7 @@ return {
             },
             [6] = {
                 name = 'Captain',
+                isboss = true,
                 payment = 1750
             },
             [7] = {
@@ -145,6 +150,7 @@ return {
             [7] = {
                 name = 'Lieutenant Colonel',
                 isboss = true,
+                bankAuth = true,
                 payment = 1900
             },
             [8] = {
@@ -170,32 +176,33 @@ return {
                 payment = 750
             },
             [2] = {
-                name = 'Sr. Firefighter',
-                payment = 750
-            },
-            [3] = {
                 name = 'Engineer',
                 payment = 1000
             },
-            [4] = {
+            [3] = {
                 name = 'Lieutenant',
                 payment = 1250
             },
-            [5] = {
+            [4] = {
                 name = 'Captain',
                 isboss = true,
-                bankAuth = true,
                 payment = 1500
             },
-            [6] = {
+            [5] = {
                 name = 'Battalion Chief',
+                isboss = true,
                 payment = 1750
+            },
+            [6] = {
+                name = 'District Chief',
+                isboss = true,
+                payment = 1800
             },
             [7] = {
                 name = 'Assistant Chief',
                 isboss = true,
                 bankAuth = true,
-                payment = 1800
+                payment = 1850
             },
             [8] = {
                 name = 'Deputy Chief',
