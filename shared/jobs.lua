@@ -882,7 +882,7 @@ return {
         },
     },
 
-    ['tunnerauto'] = {
+    ['seatonsands'] = {
         label = 'Tunner Mechanic',
         type = 'mech',
         defaultDuty = false,
