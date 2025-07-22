@@ -374,22 +374,22 @@ lib.addCommand('ooc', {
     end
 end)
 
-lib.addCommand('me', {
-    help = locale('command.me.help'),
-    params = {
-        { name = locale('command.me.params.message.name'), help = locale('command.me.params.message.help'), type = 'string' }
-    }
-}, function(source, args)
-    args[1] = args[locale('command.me.params.message.name')]
-    args[locale('command.me.params.message.name')] = nil
-    if #args < 1 then Notify(source, locale('error.missing_args2'), 'error') return end
-    local msg = table.concat(args, ' '):gsub('[~<].-[>~]', '')
-    local playerState = Player(source).state
-    playerState:set('me', msg, true)
+-- lib.addCommand('me', {
+--     help = locale('command.me.help'),
+--     params = {
+--         { name = locale('command.me.params.message.name'), help = locale('command.me.params.message.help'), type = 'string' }
+--     }
+-- }, function(source, args)
+--     args[1] = args[locale('command.me.params.message.name')]
+--     args[locale('command.me.params.message.name')] = nil
+--     if #args < 1 then Notify(source, locale('error.missing_args2'), 'error') return end
+--     local msg = table.concat(args, ' '):gsub('[~<].-[>~]', '')
+--     local playerState = Player(source).state
+--     playerState:set('me', msg, true)
 
-    -- We have to reset the playerState since the state does not get replicated on StateBagHandler if the value is the same as the previous one --
-    playerState:set('me', nil, true)
-end)
+--     -- We have to reset the playerState since the state does not get replicated on StateBagHandler if the value is the same as the previous one --
+--     playerState:set('me', nil, true)
+-- end)
 
 lib.addCommand('id', {help = locale('info.check_id')}, function(source)
     Notify(source, 'ID: ' .. source)
