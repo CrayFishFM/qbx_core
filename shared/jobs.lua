@@ -170,26 +170,27 @@ return {
                 payment = 750
             },
             [2] = {
-                name = 'Sr. Firefighter',
-                payment = 750
-            },
-            [3] = {
                 name = 'Engineer',
                 payment = 1000
             },
-            [4] = {
+            [3] = {
                 name = 'Lieutenant',
                 payment = 1250
             },
-            [5] = {
+            [4] = {
                 name = 'Captain',
                 isboss = true,
-                bankAuth = true,
-                payment = 1500
+                payment = 1400
+            },
+            [5] = {
+                name = 'Battalion Chief',
+                payment = 1600,
+                isboss = true
             },
             [6] = {
-                name = 'Battalion Chief',
-                payment = 1750
+                name = 'District Chief',
+                payment = 1700,
+                isboss = true
             },
             [7] = {
                 name = 'Assistant Chief',
