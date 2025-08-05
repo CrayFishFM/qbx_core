@@ -57,8 +57,7 @@ CreateThread(function()
     local messages = {}
 
     if not acknowledged then
-        messages[#messages + 1] = [[^7
-^4Welcome to ^3Qbox^4!
+        messages[#messages + 1] = [[^7^4Welcome to ^3Blackout Roleplay!^4!
 To learn more, please check out the documentation at ^5https://docs.qbox.re/^4.
 To turn this message off, set the ^3qbx:acknowledge^4 convar to true in your server.cfg file.^7]]
     end
