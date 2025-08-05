@@ -93,7 +93,8 @@ return {
 
     characters = {
         playersNumberOfCharacters = { -- Define maximum amount of player characters by rockstar license (you can find this license in your server's database in the player table)
-            ['license2:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'] = 5,
+            ['license2:c686e78195fd2d72cabe31d89bdf122b9413304b'] = 10,
+            ['license2:6317dd3bce1a9ca74774852a6befb5d707701636'] = 10,
         },
 
         defaultNumberOfCharacters = 3, -- Define maximum amount of default characters (maximum 3 characters defined by default)
@@ -112,8 +113,7 @@ return {
     },
 
     giveVehicleKeys = function(src, plate, vehicle)
-        -- return exports.qbx_vehiclekeys:GiveKeys(src, vehicle)
-        return exports.mVehicle:ItemCarKeys(src, 'add', plate)
+        return exports.mVehicle:AddTemporalVehicle(src, vehicle)
     end,
 
     getSocietyAccount = function(accountName)
