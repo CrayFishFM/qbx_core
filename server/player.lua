@@ -646,6 +646,7 @@ function CheckPlayerData(source, playerData)
         driver = false,
         weapon = false,
     }
+    playerData.metadata.allowdelete = false
     playerData.metadata.inside = playerData.metadata.inside or {
         house = nil,
         apartment = {
@@ -1424,15 +1425,19 @@ function DeleteCharacter(source, citizenid)
     local result, success = storage.fetchPlayerEntity(citizenid)?.license, false
 
     if license == result or license2 == result then
-        success = storage.deletePlayer(citizenid)
-        if success then
-            logger.log({
-                source = 'qbx_core',
-                webhook = config.logging.webhook['joinleave'],
-                event = 'Character Deleted',
-                color = 'red',
-                message = ('**%s** deleted **%s**...'):format(GetPlayerName(source), citizenid, source),
-            })
+        local player = GetPlayerByCitizenId(citizenid) or GetOfflinePlayer(citizenid) or GetPlayer(citizenid)
+        if not player then print('Player not found could not be deleted.' .. citizenid) return false end
+        if player.PlayerData.metadata.allowdelete then
+            success = storage.deletePlayer(citizenid)
+            if success then
+                logger.log({
+                    source = 'qbx_core',
+                    webhook = config.logging.webhook['joinleave'],
+                    event = 'Character Deleted',
+                    color = 'red',
+                    message = ('**%s** deleted **%s**...'):format(GetPlayerName(source), citizenid, source),
+                })
+            end
         end
     else
         DropPlayer(tostring(source), locale('info.exploit_dropped'))

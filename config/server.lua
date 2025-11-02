@@ -5,7 +5,7 @@ return {
         ---@alias MoneyType 'cash' | 'bank' | 'crypto' | 'tokens'
         ---@alias Money {cash: number, bank: number, crypto: number}
         ---@type Money
-        moneyTypes = { cash = 500, bank = 5000, crypto = 0, tokens = 0 }, -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
+        moneyTypes = { cash = 5000, bank = 10000, crypto = 0, tokens = 0 }, -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
         dontAllowMinus = { 'cash', 'crypto', 'tokens' }, -- Money that is not allowed going in minus
         paycheckTimeout = 10, -- The time in minutes that it will give the paycheck
         paycheckSociety = false -- If true paycheck will come from the society account that the player is employed at
@@ -95,6 +95,8 @@ return {
         playersNumberOfCharacters = { -- Define maximum amount of player characters by rockstar license (you can find this license in your server's database in the player table)
             ['license2:c686e78195fd2d72cabe31d89bdf122b9413304b'] = 10,
             ['license2:6317dd3bce1a9ca74774852a6befb5d707701636'] = 10,
+            ['license2:3983c107fa4f7650c20385966114f1fe185c5ec2'] = 10,
+            ['license2:5dd985fa8f2e950d8f9cc93853b3945dd91e6bc9'] = 10
         },
 
         defaultNumberOfCharacters = 3, -- Define maximum amount of default characters (maximum 3 characters defined by default)
@@ -113,7 +115,7 @@ return {
     },
 
     giveVehicleKeys = function(src, plate, vehicle)
-        return exports.mVehicle:AddTemporalVehicle(src, vehicle)
+        return exports['Renewed-Vehiclekeys']:addKey(src, plate)
     end,
 
     getSocietyAccount = function(accountName)

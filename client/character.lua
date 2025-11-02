@@ -111,7 +111,7 @@ if config.characters.limitNationalities then
 
     CreateThread(function()
         for i = 1, #nationalityList do
-            nationalities[#nationalities + 1] = { value = nationalityList[i] }
+            nationalities[#nationalities + 1] = { label = nationalityList[i], value = nationalityList[i] }
         end
     end)
 end
@@ -189,49 +189,97 @@ local function characterDialog()
         placeholder = 'Duck'
     }
 
-    return lib.inputDialog(locale('info.character_registration_title'), {
-        {
-            type = 'input',
-            required = true,
-            icon = 'user-pen',
-            label = locale('info.first_name'),
-            placeholder = 'Hank'
-        },
-        {
-            type = 'input',
-            required = true,
-            icon = 'user-pen',
-            label = locale('info.last_name'),
-            placeholder = 'Jordan'
-        },
-        nationalityOption,
-        {
-            type = 'select',
-            required = true,
-            icon = 'circle-user',
-            label = locale('info.gender'),
-            placeholder = locale('info.select_gender'),
-            options = {
-                {
-                    value = locale('info.char_male')
-                },
-                {
-                    value = locale('info.char_female')
+    return exports.lation_ui:input({
+        title = locale('info.character_registration_title'),
+        options = {
+            {
+                type = 'input',
+                required = true,
+                icon = 'user-pen',
+                label = locale('info.first_name'),
+                placeholder = 'Hank'
+            },
+            {
+                type = 'input',
+                required = true,
+                icon = 'user-pen',
+                label = locale('info.last_name'),
+                placeholder = 'Jordan'
+            },
+            nationalityOption,
+            {
+                type = 'select',
+                required = true,
+                icon = 'circle-user',
+                label = locale('info.gender'),
+                placeholder = locale('info.select_gender'),
+                options = {
+                    {
+                        lable = locale('info.char_male'),
+                        value = locale('info.char_male')
+                    },
+                    {
+                        label = locale('info.char_female'),
+                        value = locale('info.char_female')
+                    }
                 }
+            },
+            {
+                type = 'date',
+                required = true,
+                icon = 'calendar-days',
+                label = locale('info.birth_date'),
+                format = config.characters.dateFormat,
+                min = config.characters.dateMin,
+                max = config.characters.dateMax,
+                default = config.characters.dateMax
             }
-        },
-        {
-            type = 'date',
-            required = true,
-            icon = 'calendar-days',
-            label = locale('info.birth_date'),
-            format = config.characters.dateFormat,
-            returnString = true,
-            min = config.characters.dateMin,
-            max = config.characters.dateMax,
-            default = config.characters.dateMax
         }
     })
+
+    -- return lib.inputDialog(locale('info.character_registration_title'), {
+    --     {
+    --         type = 'input',
+    --         required = true,
+    --         icon = 'user-pen',
+    --         label = locale('info.first_name'),
+    --         placeholder = 'Hank'
+    --     },
+    --     {
+    --         type = 'input',
+    --         required = true,
+    --         icon = 'user-pen',
+    --         label = locale('info.last_name'),
+    --         placeholder = 'Jordan'
+    --     },
+    --     nationalityOption,
+    --     {
+    --         type = 'select',
+    --         required = true,
+    --         icon = 'circle-user',
+    --         label = locale('info.gender'),
+    --         placeholder = locale('info.select_gender'),
+    --         options = {
+    --             {
+    --                 value = locale('info.char_male')
+    --             },
+    --             {
+    --                 value = locale('info.char_female')
+    --             }
+    --         }
+    --     },
+    --     {
+    --         type = 'date',
+    --         required = true,
+    --         icon = 'calendar-days',
+    --         label = locale('info.birth_date'),
+    --         format = config.characters.dateFormat,
+    --         returnString = true,
+    --         min = config.characters.dateMin,
+    --         max = config.characters.dateMax,
+    --         default = config.characters.dateMax
+    --     }
+    -- })
 end
 
 ---@param dialog string[]
@@ -411,20 +459,20 @@ local function chooseCharacter()
             icon = 'user',
             onSelect = function()
                 if character then
-                    lib.showContext('qbx_core_multichar_character_'..i)
+                    exports.lation_ui:showMenu('qbx_core_multichar_character_'..i)
                     previewPed(character.citizenid)
                 else
                     local success = createCharacter(i)
                     if success then return end
 
                     previewPed(firstCharacterCitizenId)
-                    lib.showContext('qbx_core_multichar_characters')
+                    exports.lation_ui:showMenu('qbx_core_multichar_characters')
                 end
             end
         }
 
         if character then
-            lib.registerContext({
+            exports.lation_ui:registerMenu({
                 id = 'qbx_core_multichar_character_'..i,
                 title = ('%s %s - %s'):format(character.charinfo.firstname, character.charinfo.lastname, character.citizenid),
                 canClose = false,
@@ -450,10 +498,11 @@ local function chooseCharacter()
                     },
                     config.characters.enableDeleteButton and {
                         title = locale('info.delete_character'),
-                        description = locale('info.delete_character_description', name),
+                        description = not character.metadata.allowdelete and 'Please open a ticket in the discord to delete a character.' or locale('info.delete_character_description', name),
+                        disabled = not character.metadata.allowdelete,
                         icon = 'trash',
                         onSelect = function()
-                            local alert = lib.alertDialog({
+                            local alert = exports.lation_ui:alert({
                                 header = locale('info.delete_character'),
                                 content = locale('info.confirm_delete'),
                                 centered = true,
@@ -466,7 +515,7 @@ local function chooseCharacter()
                                 destroyPreviewCam()
                                 chooseCharacter()
                             else
-                                lib.showContext('qbx_core_multichar_character_'..i)
+                                exports.lation_ui:showMenu('qbx_core_multichar_character_'..i)
                             end
                         end
                     } or nil
@@ -475,7 +524,7 @@ local function chooseCharacter()
         end
     end
 
-    lib.registerContext({
+    exports.lation_ui:registerMenu({
         id = 'qbx_core_multichar_characters',
         title = locale('info.multichar_title'),
         canClose = false,
@@ -483,7 +532,7 @@ local function chooseCharacter()
     })
 
     SetTimecycleModifier('default')
-    lib.showContext('qbx_core_multichar_characters')
+    exports.lation_ui:showMenu('qbx_core_multichar_characters')
 end
 
 RegisterNetEvent('qbx_core:client:spawnNoApartments', function() -- This event is only for no starting apartments

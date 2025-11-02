@@ -128,7 +128,7 @@ local function fetchAllPlayerEntities(license2, license)
     ---@type PlayerEntity[]
     local chars = {}
     ---@type PlayerEntityDatabase[]
-    local result = MySQL.query.await('SELECT citizenid, charinfo, money, job, gang, position, metadata, UNIX_TIMESTAMP(last_logged_out) AS lastLoggedOutUnix FROM players WHERE license = ? OR license = ? ORDER BY cid', {license, license2})
+    local result = MySQL.query.await('SELECT citizenid, charinfo, money, job, gang, position, metadata, UNIX_TIMESTAMP(last_logged_out) AS lastLoggedOutUnix FROM players WHERE license = ? OR license = ? AND (deleted IS NULL OR deleted = 0) ORDER BY cid', {license, license2})
     for i = 1, #result do
         chars[i] = result[i]
         chars[i].charinfo = json.decode(result[i].charinfo)
@@ -229,26 +229,30 @@ end
 ---@param citizenId string
 ---@return boolean success if operation is successful.
 local function deletePlayer(citizenId)
-    local query = 'DELETE FROM %s WHERE %s = ?'
-    local queries = {}
+    -- local query = 'DELETE FROM %s WHERE %s = ?'
+    -- local queries = {}
 
-    for i = 1, #characterDataTables do
-        local data = characterDataTables[i]
-        local tableName = data[1]
-        local columnName = data[2]
-        if doesTableExist(tableName) then
-            queries[#queries + 1] = {
-                query = query:format(tableName, columnName),
-                values = {
-                    citizenId,
-                }
-            }
-        else
-            warn(('Table %s does not exist in database, please remove it from qbx_core/config/server.lua or create the table'):format(tableName))
-        end
-    end
+    -- for i = 1, #characterDataTables do
+    --     local data = characterDataTables[i]
+    --     local tableName = data[1]
+    --     local columnName = data[2]
+    --     if doesTableExist(tableName) then
+    --         queries[#queries + 1] = {
+    --             query = query:format(tableName, columnName),
+    --             values = {
+    --                 citizenId,
+    --             }
+    --         }
+    --     else
+    --         warn(('Table %s does not exist in database, please remove it from qbx_core/config/server.lua or create the table'):format(tableName))
+    --     end
+    -- end
 
-    local success = MySQL.transaction.await(queries)
+    -- local success = MySQL.transaction.await(queries)
+    local success = MySQL.query.await(
+        'UPDATE players SET deleted = 1 WHERE citizenid = ?', 
+        {citizenid}
+      )
     return not not success
 end
 

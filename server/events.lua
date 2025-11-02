@@ -41,6 +41,7 @@ AddEventHandler('playerDropped', function(reason)
     if not QBX.Players[src] then return end
     GlobalState.PlayerCount = GetNumPlayerIndices()
     local player = QBX.Players[src]
+    player.Functions.Save()
     player.PlayerData.lastLoggedOut = os.time()
     logger.log({
         source = 'qbx_core',
@@ -49,7 +50,6 @@ AddEventHandler('playerDropped', function(reason)
         color = 'red',
         message = ('**%s** (%s) left...\n **Reason:** %s'):format(GetPlayerName(src), player.PlayerData.license, reason),
     })
-    player.Functions.Save()
     QBX.Player_Buckets[player.PlayerData.license] = nil
     QBX.Players[src] = nil
 end)

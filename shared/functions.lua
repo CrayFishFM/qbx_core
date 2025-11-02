@@ -75,16 +75,22 @@ end
 ---@return table<string, integer> playerGroups
 function GetPlayerGroups(playerData)
     local groups = {}
-    for job, data in pairs(playerData.jobs) do
-        if not groups[job] then
-            groups[job] = data
+
+    if playerData.jobs then
+        for job, data in pairs(playerData.jobs) do
+            if not groups[job] then
+                groups[job] = data
+            end
         end
     end
-    for gang, data in pairs(playerData.gangs) do
-        if not groups[gang] then
-            groups[gang] = data
-        else
-            lib.print.warn(('Duplicate group name %s found in player_groups table, check job and gang shared lua.'):format(gang))
+
+    if playerData.gangs then
+        for gang, data in pairs(playerData.gangs) do
+            if not groups[gang] then
+                groups[gang] = data
+            else
+                lib.print.warn(('Duplicate group name %s found in player_groups table, check job and gang shared lua.'):format(gang))
+            end
         end
     end
     return groups

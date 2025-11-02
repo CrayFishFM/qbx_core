@@ -2,7 +2,7 @@ return {
     statusIntervalSeconds = 5, -- how often to check hunger/thirst status to remove health if 0.
     loadingModelsTimeout = 30000, -- Waiting time for ox_lib to load the models before throws an error, for low specs pc
 
-    pauseMapText = 'Blackout Roleplay', -- Text shown above the map when ESC is pressed. If left empty 'FiveM' will appear
+    pauseMapText = 'Solstice Roleplay', -- Text shown above the map when ESC is pressed. If left empty 'FiveM' will appear
 
     characters = {
         useExternalCharacters = false, -- Whether you have an external character management resource. (If true, disables the character management inside the core)
@@ -54,33 +54,31 @@ return {
     discord = {
         enabled = true, -- This will enable or disable the built in discord rich presence.
 
-        appId = '1399944793102225530', -- This is the Application ID (Replace this with you own)
+        appId = '1358969910134575276', -- This is the Application ID (Replace this with you own)
 
         largeIcon = { -- To set this up, visit https://forum.cfx.re/t/how-to-updated-discord-rich-presence-custom-image/157686
-            icon = 'blackoutlogo', -- Here you will have to put the image name for the 'large' icon.
-            text = 'Blackout Roleplay', -- Here you can add hover text for the 'large' icon.
+            icon = 'server_logo', -- Here you will have to put the image name for the 'large' icon.
+            text = 'Solstice Roleplay', -- Here you can add hover text for the 'large' icon.
         },
 
         smallIcon = {
-            icon = 'blackoutlogo', -- Here you will have to put the image name for the 'small' icon.
-            text = 'Blackout Roleplay', -- Here you can add hover text for the 'small' icon.
+            icon = 'server_logo', -- Here you will have to put the image name for the 'small' icon.
+            text = 'Solstice Roleplay', -- Here you can add hover text for the 'small' icon.
         },
 
         firstButton = {
-            text = 'BlackoutRP Discord',
+            text = 'SolsticeRP Discord',
             link = 'https://discord.gg/cSHrkbBr2v',
         },
 
         secondButton = {
-            text = 'BlackoutRP Website',
+            text = 'SolsticeRP Website',
             link = 'https://www.blackoutroleplay.net/',
         }
     },
 
     --- Only used by QB bridge
     hasKeys = function(plate, vehicle)
-        local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
-        if not vehicle then return end
-        return exports.mVehicle:HasKeyClient(vehicle)
+        return exports['Renewed-Vehiclekeys']:hasKey(plate)
     end,
 }
